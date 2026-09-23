@@ -9,6 +9,10 @@ framework **CodeIgniter 4**, dan database **MySQL/MariaDB**.
 - **Dashboard** interaktif: serapan anggaran, tren bulanan, akumulasi, porsi per
   jenis aktivitas, matriks jenis × bulan, komponen biaya, top kegiatan, per
   akun/cost center — semua bisa difilter tahun/bulan/jenis tanpa memuat ulang halaman.
+- **Anggaran tahunan**: tetapkan pagu anggaran per tahun (total keseluruhan,
+  dan/atau terpisah per jenis aktivitas). Pagu berkurang otomatis mengikuti
+  realisasi transaksi — tidak perlu dihitung manual, dan tampil sebagai panel
+  progres di dashboard serta halaman "Anggaran tahunan" tersendiri.
 - **CRUD transaksi** lengkap (tambah/lihat/ubah/hapus) dengan total biaya
   otomatis (mengikuti rumus `=SUM` pada template), validasi, dan pencarian/filter/urut/paginasi.
 - **Import dari Excel**: membaca ulang template asli (header dikenali dari nama
@@ -16,7 +20,8 @@ framework **CodeIgniter 4**, dan database **MySQL/MariaDB**.
   master baru secara otomatis, dan menampilkan pratinjau + peringatan sebelum disimpan.
 - **Laporan & ekspor**: 7 jenis laporan (rekap bulanan, per jenis, matriks,
   per akun/CC, komponen biaya, rincian ala sheet PIVOT, daftar transaksi),
-  diunduh sebagai **Excel** (dengan rumus hidup), **PDF**, atau **CSV**.
+  masing-masing bisa difilter termasuk **Inhouse/Public**, dan diunduh sebagai
+  **Excel** (dengan rumus hidup), **PDF**, atau **CSV**.
 - **Validasi data**: aturan otomatis mendeteksi baris yang perlu diperiksa
   (realisasi melebihi anggaran, tanggal terbalik, dll).
 - **Master data** (jenis aktivitas, Inhouse/Public, No. akun, Cost center),
@@ -39,6 +44,19 @@ php spark serve
 ```
 
 Buka `http://localhost:8080`.
+
+### Sudah pernah instal sebelumnya? (memperbarui ke versi ini)
+
+Ganti seluruh isi folder `app/` dan `public/assets/` dengan yang ada di paket
+ini (atau cukup timpa file-file yang berubah), lalu jalankan sekali:
+
+```bash
+php spark migrate
+```
+
+Perintah ini akan menambahkan tabel `anggaran_tahunan` (fitur baru) tanpa
+mengubah atau menghapus data transaksi yang sudah ada. Tidak perlu
+`db:seed` ulang.
 
 ### Konfigurasi `.env`
 

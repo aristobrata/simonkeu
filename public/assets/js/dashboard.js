@@ -243,6 +243,36 @@
     $('heat').innerHTML = h;
   }
 
+  function renderAnggaranTahunan(d) {
+    var panel = $('anggaranTahunanPanel'), list = $('anggaranTahunanList');
+    var rows = d.anggaran_tahunan || [];
+    if (!rows.length) { panel.hidden = true; return; }
+    panel.hidden = false;
+    list.innerHTML = rows.map(function (r) {
+      var over = r.serapan > 100.05;
+      var label = r.jenis_aktivitas_id === null
+        ? '<span class="chip chip-gold">Semua jenis (total tahunan)</span>'
+        : '<span class="chip chip-teal">' + esc(r.jenis_nama || '') + '</span>';
+      return '' +
+        '<div class="col-md-6 col-xl-4">' +
+          '<div class="p-3" style="border:1px solid var(--line-soft);border-radius:8px;height:100%">' +
+            '<div class="mb-2">' + label + '</div>' +
+            '<div class="d-flex justify-content-between align-items-baseline">' +
+              '<span class="small-2">Pagu ' + rpC(r.nominal) + '</span>' +
+              '<span class="' + (over ? 'text-over fw-600' : 'fw-600') + '" style="font-size:.82rem">' + pct(r.serapan) + '</span>' +
+            '</div>' +
+            '<div class="budget-bar ' + (over ? 'over' : '') + '" style="margin:.4rem 0">' +
+              '<i style="width:' + Math.min(100, Math.max(0, r.serapan)) + '%"></i>' +
+            '</div>' +
+            '<div class="d-flex justify-content-between small-2">' +
+              '<span>Terpakai ' + rpC(r.realisasi) + '</span>' +
+              '<span class="' + (r.sisa < 0 ? 'text-over' : '') + '">Sisa ' + rpC(r.sisa) + '</span>' +
+            '</div>' +
+          '</div>' +
+        '</div>';
+    }).join('');
+  }
+
   function renderTerbaru(d) {
     var h = '<thead><tr><th>Tanggal</th><th>Aktivitas</th><th>Jenis</th><th class="num">Rencana</th><th class="num">Realisasi</th></tr></thead><tbody>';
     d.terbaru.forEach(function (r) {
@@ -261,6 +291,7 @@
     $('dash').hidden = kosong;
     if (kosong) { $('subHeading').textContent = 'Belum ada data untuk filter ini'; return; }
     renderKpi(d); renderBulanan(d); renderKum(d); renderJenis(d); renderJenisBulan(d);
+    renderAnggaranTahunan(d);
     renderKomponen(d); renderTop(d); renderPelaksanaan(d);
     bars($('barsAkun'), d.akun, function (r) { return r.kode + ' · ' + r.nama; });
     bars($('barsCc'), d.cost_center, function (r) { return r.kode + (r.nama && r.nama.indexOf(r.kode) < 0 ? ' · ' + r.nama : ''); });

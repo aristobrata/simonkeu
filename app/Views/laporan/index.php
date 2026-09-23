@@ -24,6 +24,9 @@ $unduh  = static fn (string $fmt): string => site_url('laporan/unduh/' . $kode) 
             <div class="f"><label for="jenis">Jenis aktivitas</label>
                 <select class="form-select form-select-sm" id="jenis" name="jenis"><option value="">Semua jenis</option>
                     <?php foreach ($jenisList as $id => $nm) : ?><option value="<?= $id ?>" <?= $f['jenis'] === (int) $id ? 'selected' : '' ?>><?= esc($nm) ?></option><?php endforeach ?></select></div>
+            <div class="f"><label for="pelaksanaan">Inhouse / Public</label>
+                <select class="form-select form-select-sm" id="pelaksanaan" name="pelaksanaan"><option value="">Semua</option><option value="0" <?= $f['pelaksanaan'] === '0' ? 'selected' : '' ?>>(Tidak diisi)</option>
+                    <?php foreach ($pelaksanaanList as $id => $nm) : ?><option value="<?= $id ?>" <?= $f['pelaksanaan'] === (string) $id ? 'selected' : '' ?>><?= esc($nm) ?></option><?php endforeach ?></select></div>
             <div class="f" style="min-width:auto"><label>&nbsp;</label><button class="btn btn-primary btn-sm" type="submit"><i class="bi bi-eye me-1"></i>Tampilkan</button></div>
         </div>
         <p class="small-2 mt-3 mb-0"><?= esc(\App\Libraries\ReportBuilder::LAPORAN[$kode]['deskripsi']) ?></p>

@@ -52,6 +52,12 @@
         <div><div class="stat-label"><span data-k="bl_label">Bulan terakhir</span> <span class="delta" data-k="bl_delta" hidden></span></div><div class="stat-value" data-k="bl_c">–</div><div class="stat-sub" data-k="bl_sub"></div></div>
     </section>
 
+    <section class="panel" id="anggaranTahunanPanel" hidden>
+        <div class="panel-head"><h2>Anggaran tahunan</h2><span class="meta ms-auto">Pagu berkurang otomatis mengikuti realisasi</span>
+            <a class="btn btn-ghost btn-sm ms-2" href="<?= site_url('anggaran') ?>">Kelola pagu</a></div>
+        <div class="panel-body"><div id="anggaranTahunanList" class="row g-3"></div></div>
+    </section>
+
     <div class="grid-12">
         <section class="panel span-8">
             <div class="panel-head"><h2>Rencana dan realisasi per bulan</h2><span class="meta ms-auto">Batang emas = anggaran, teal = realisasi</span></div>

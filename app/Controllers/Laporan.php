@@ -7,6 +7,7 @@ use App\Libraries\ExportXlsx;
 use App\Libraries\ReportBuilder;
 use App\Models\AuditLogModel;
 use App\Models\JenisAktivitasModel;
+use App\Models\PelaksanaanModel;
 use App\Models\TransaksiModel;
 use CodeIgniter\Exceptions\PageNotFoundException;
 
@@ -46,16 +47,18 @@ class Laporan extends BaseController
         $lap = (new ReportBuilder())->bangun($kode, $f);
 
         $query = array_filter([
-            'laporan' => $kode, 'tahun' => $f['tahun'] ?: null, 'dari' => $f['bulan_dari'], 'sampai' => $f['bulan_sampai'], 'jenis' => $f['jenis'] ?: null,
+            'laporan' => $kode, 'tahun' => $f['tahun'] ?: null, 'dari' => $f['bulan_dari'], 'sampai' => $f['bulan_sampai'],
+            'jenis' => $f['jenis'] ?: null, 'pelaksanaan' => $f['pelaksanaan'] !== '' ? $f['pelaksanaan'] : null,
         ], static fn ($v) => $v !== null);
 
         return view('laporan/index', [
-            'kode'      => $kode,
-            'lap'       => $lap,
-            'f'         => $f,
-            'tahunList' => (new TransaksiModel())->daftarTahun(),
-            'jenisList' => (new JenisAktivitasModel())->opsi(),
-            'query'     => $query,
+            'kode'            => $kode,
+            'lap'             => $lap,
+            'f'               => $f,
+            'tahunList'       => (new TransaksiModel())->daftarTahun(),
+            'jenisList'       => (new JenisAktivitasModel())->opsi(),
+            'pelaksanaanList' => (new PelaksanaanModel())->opsi(),
+            'query'           => $query,
         ]);
     }
 

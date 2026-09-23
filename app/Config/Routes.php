@@ -19,6 +19,8 @@ $routes->group('', ['filter' => 'auth'], static function (RouteCollection $route
 
     $routes->get('transaksi', 'Transaksi::index');
 
+    $routes->get('anggaran', 'Anggaran::index');
+
     // Tulis: administrator & operator (didefinisikan sebelum rute (:num))
     $routes->group('', ['filter' => 'role:admin,operator'], static function (RouteCollection $routes) {
         $routes->get('transaksi/baru', 'Transaksi::create');
@@ -29,6 +31,9 @@ $routes->group('', ['filter' => 'auth'], static function (RouteCollection $route
         $routes->get('transaksi/(:num)/ubah', 'Transaksi::edit/$1');
         $routes->post('transaksi/(:num)/ubah', 'Transaksi::update/$1');
         $routes->post('transaksi/(:num)/hapus', 'Transaksi::delete/$1');
+
+        $routes->post('anggaran/simpan', 'Anggaran::save');
+        $routes->post('anggaran/(:num)/hapus', 'Anggaran::delete/$1');
 
         $routes->get('master/(:segment)', 'Master::index/$1');
         $routes->post('master/(:segment)/simpan', 'Master::save/$1');

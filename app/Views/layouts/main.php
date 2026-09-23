@@ -12,6 +12,9 @@ $nav = [
         ['Transaksi biaya', 'transaksi', 'bi-receipt', ['transaksi', 'transaksi/(:num)*', 'transaksi/baru', 'transaksi/*/ubah'], null],
         ['Import Excel', 'transaksi/import', 'bi-file-earmark-arrow-up', ['transaksi/import*'], ['admin', 'operator']],
     ]],
+    ['Anggaran' => [
+        ['Anggaran tahunan', 'anggaran', 'bi-piggy-bank', ['anggaran*'], null],
+    ]],
     ['Laporan' => [
         ['Laporan & ekspor', 'laporan', 'bi-file-earmark-bar-graph', ['laporan*'], null],
         ['Validasi data', 'validasi', 'bi-shield-check', ['validasi*'], null],

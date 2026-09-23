@@ -50,6 +50,7 @@ class Statistik
             'cost_center' => $this->perCostCenter($f),
             'top'         => $this->topKegiatan($f, 10),
             'terbaru'     => $this->terbaru($f, 8),
+            'anggaran_tahunan' => (new \App\Models\AnggaranModel())->ringkasan((int) ($f['tahun'] ?? 0)),
         ];
     }
 
