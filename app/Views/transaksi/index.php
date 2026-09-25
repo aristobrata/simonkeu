@@ -99,7 +99,7 @@ $selisih = (float) $total['rencana'] + (float) $total['tambahan'] - (float) $tot
                     <td class="num"><?= angka($r['rencana_anggaran']) ?></td>
                     <td class="num"><?= angka($r['realisasi_anggaran']) ?></td>
                     <td class="num"><?= angka($r['total_biaya']) ?><?php if ($beda) : ?> <i class="bi bi-exclamation-triangle-fill text-gold" title="Realisasi berbeda dari total biaya"></i><?php endif ?></td>
-                    <td><?= $r['status_pembayaran'] ? '<span class="chip chip-slate">' . esc($r['status_pembayaran']) . '</span>' : '<span class="small-2">—</span>' ?></td>
+                    <td><?= $r['status_pembayaran'] ? '<span class="chip ' . status_kelas($r['status_pembayaran']) . '">' . esc($r['status_pembayaran']) . '</span>' : '<span class="small-2">—</span>' ?></td>
                     <td class="text-end text-nowrap">
                         <a class="btn btn-ghost btn-sm" href="<?= site_url('transaksi/' . $r['id']) ?>" title="Lihat"><i class="bi bi-eye"></i></a>
                         <?php if (has_role('admin', 'operator')) : ?>

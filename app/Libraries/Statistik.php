@@ -46,6 +46,7 @@ class Statistik
             'jenis_bulan' => $this->jenisBulan($f, $dari, $sampai, $jenis),
             'komponen'    => $this->komponen($f),
             'pelaksanaan' => $this->perPelaksanaan($f),
+            'status'      => $this->perStatus($f),
             'akun'        => $this->perAkun($f),
             'cost_center' => $this->perCostCenter($f),
             'top'         => $this->topKegiatan($f, 10),
@@ -225,6 +226,29 @@ class Statistik
             ->groupBy("COALESCE(p.nama, 'Tidak diisi')", false)->orderBy('realisasi', 'DESC')->get()->getResultArray();
 
         return array_map(static fn ($r) => ['nama' => $r['nama'], 'jumlah' => (int) $r['jumlah'], 'realisasi' => (float) $r['realisasi']], $rows);
+    }
+
+    /** Jumlah & nilai realisasi per status pembayaran (Belum/Diproses/Lunas/Belum diisi), urutan tetap agar diagram konsisten. */
+    public function perStatus(array $f): array
+    {
+        $rows = $this->dasar($f)->select("COALESCE(t.status_pembayaran, 'Belum diisi') AS status, " . self::SUMS, false)
+            ->groupBy("COALESCE(t.status_pembayaran, 'Belum diisi')", false)->get()->getResultArray();
+
+        $peta = [];
+        foreach ($rows as $r) {
+            $peta[$r['status']] = ['status' => $r['status'], 'jumlah' => (int) $r['jumlah'], 'realisasi' => (float) $r['realisasi']];
+        }
+
+        $urutan = array_merge(config('Simonkeu')->statusPembayaran, ['Belum diisi']);
+        $out    = [];
+        foreach ($urutan as $s) {
+            if (isset($peta[$s])) {
+                $out[] = $peta[$s];
+                unset($peta[$s]);
+            }
+        }
+
+        return array_merge($out, array_values($peta));
     }
 
     public function perAkun(array $f): array

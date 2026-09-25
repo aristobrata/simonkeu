@@ -15,7 +15,7 @@ class Simonkeu extends BaseConfig
     public string $orgName  = 'PT Semen Padang';
 
     /** Pilihan status pembayaran (kolom "Status pembayaran" pada template). */
-    public array $statusPembayaran = ['Belum Dibayar', 'Diproses', 'Lunas', 'Akrual'];
+    public array $statusPembayaran = ['Belum', 'Diproses', 'Lunas'];
 
     /** Rincian biaya sesuai kolom M–U template: kolom DB => label. */
     public array $komponen = [

@@ -101,11 +101,18 @@
             <div class="panel-body flush"><div class="table-scroll" style="max-height:none"><table class="table heat mb-0" id="heat"></table></div></div>
         </section>
 
-        <section class="panel span-6">
+        <section class="panel span-4">
+            <div class="panel-head"><h2>Status transaksi</h2></div>
+            <div class="panel-body">
+                <div class="chart-box short"><canvas id="chStatus" role="img" aria-label="Grafik proporsi status pembayaran"></canvas></div>
+                <ul class="legend-list" id="legendStatus"></ul>
+            </div>
+        </section>
+        <section class="panel span-4">
             <div class="panel-head"><h2>Realisasi per nomor akun</h2></div>
             <div class="panel-body"><ul class="bars" id="barsAkun"></ul></div>
         </section>
-        <section class="panel span-6">
+        <section class="panel span-4">
             <div class="panel-head"><h2>Realisasi per cost center</h2></div>
             <div class="panel-body"><ul class="bars" id="barsCc"></ul></div>
         </section>

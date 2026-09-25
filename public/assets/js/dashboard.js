@@ -213,6 +213,25 @@
     }).join('');
   }
 
+  function renderStatus(d) {
+    var s = (d.status || []).filter(function (x) { return x.jumlah > 0; });
+    var total = s.reduce(function (sum, x) { return sum + x.jumlah; }, 0);
+    var WARNA = { 'Belum': '#B5412B', 'Diproses': '#E8A317', 'Lunas': '#0B7A75', 'Belum diisi': '#AEB6C0' };
+    var col = function (st) { return WARNA[st] || '#56616E'; };
+    make('chStatus', {
+      type: 'bar',
+      data: { labels: [''], datasets: s.map(function (x) { return { label: x.status, data: [total ? x.jumlah / total * 100 : 0], backgroundColor: col(x.status), borderWidth: 2, borderColor: '#fff', borderRadius: 4 }; }) },
+      options: {
+        indexAxis: 'y',
+        plugins: { legend: { display: false }, tooltip: { callbacks: { label: function (c) { return ' ' + c.dataset.label + ': ' + nf.format(s[c.datasetIndex].jumlah) + ' transaksi (' + pct(c.parsed.x) + ')'; } } } },
+        scales: { x: { stacked: true, display: false, max: 100 }, y: { stacked: true, display: false } }
+      }
+    });
+    $('legendStatus').innerHTML = s.map(function (x) {
+      return '<li><span class="sw" style="background:' + col(x.status) + '"></span><span>' + esc(x.status) + '</span><b>' + nf.format(x.jumlah) + '</b><span class="pc">' + pct(total ? x.jumlah / total * 100 : 0) + '</span></li>';
+    }).join('') + (s.length ? '<li class="small-2 mt-1" style="grid-template-columns:1fr">Nilai realisasi: ' + s.map(function (x) { return esc(x.status) + ' ' + short(x.realisasi); }).join(' · ') + '</li>' : '');
+  }
+
   function bars(el, rows, label) {
     var max = Math.max.apply(null, rows.map(function (r) { return r.realisasi; }).concat([1]));
     el.innerHTML = rows.filter(function (r) { return r.realisasi > 0; }).map(function (r) {
@@ -292,7 +311,7 @@
     if (kosong) { $('subHeading').textContent = 'Belum ada data untuk filter ini'; return; }
     renderKpi(d); renderBulanan(d); renderKum(d); renderJenis(d); renderJenisBulan(d);
     renderAnggaranTahunan(d);
-    renderKomponen(d); renderTop(d); renderPelaksanaan(d);
+    renderKomponen(d); renderTop(d); renderPelaksanaan(d); renderStatus(d);
     bars($('barsAkun'), d.akun, function (r) { return r.kode + ' · ' + r.nama; });
     bars($('barsCc'), d.cost_center, function (r) { return r.kode + (r.nama && r.nama.indexOf(r.kode) < 0 ? ' · ' + r.nama : ''); });
     renderHeat(d); renderTerbaru(d);

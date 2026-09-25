@@ -25,7 +25,7 @@ $beda     = abs((float) $row['realisasi_anggaran'] - $total) > 0.5;
         <h2 class="h5 mb-2"><?= esc($row['aktivitas']) ?></h2>
         <span class="chip chip-teal"><?= esc($row['jenis']) ?></span>
         <?php if ($row['pelaksanaan']) : ?><span class="chip"><?= esc($row['pelaksanaan']) ?></span><?php endif ?>
-        <?php if ($row['status_pembayaran']) : ?><span class="chip chip-slate"><?= esc($row['status_pembayaran']) ?></span><?php endif ?>
+        <?php if ($row['status_pembayaran']) : ?><span class="chip <?= status_kelas($row['status_pembayaran']) ?>"><?= esc($row['status_pembayaran']) ?></span><?php endif ?>
         <span class="chip chip-gold"><?= bulan_id((int) $row['periode_bulan'], false) . ' ' . $row['periode_tahun'] ?></span>
     </div>
 </div>

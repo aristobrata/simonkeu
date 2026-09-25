@@ -13,6 +13,9 @@ framework **CodeIgniter 4**, dan database **MySQL/MariaDB**.
   dan/atau terpisah per jenis aktivitas). Pagu berkurang otomatis mengikuti
   realisasi transaksi — tidak perlu dihitung manual, dan tampil sebagai panel
   progres di dashboard serta halaman "Anggaran tahunan" tersendiri.
+- **Status pembayaran** transaksi (Belum / Diproses / Lunas), dengan diagram
+  proporsi status di dashboard sehingga langsung terlihat berapa banyak
+  transaksi yang masih perlu diselesaikan.
 - **CRUD transaksi** lengkap (tambah/lihat/ubah/hapus) dengan total biaya
   otomatis (mengikuti rumus `=SUM` pada template), validasi, dan pencarian/filter/urut/paginasi.
 - **Import dari Excel**: membaca ulang template asli (header dikenali dari nama
@@ -54,9 +57,9 @@ ini (atau cukup timpa file-file yang berubah), lalu jalankan sekali:
 php spark migrate
 ```
 
-Perintah ini akan menambahkan tabel `anggaran_tahunan` (fitur baru) tanpa
-mengubah atau menghapus data transaksi yang sudah ada. Tidak perlu
-`db:seed` ulang.
+Perintah ini akan menambahkan tabel `anggaran_tahunan` dan merapikan status
+pembayaran lama ke 3 kategori baru (Belum/Diproses/Lunas), tanpa mengubah
+atau menghapus data transaksi yang sudah ada. Tidak perlu `db:seed` ulang.
 
 ### Konfigurasi `.env`
 

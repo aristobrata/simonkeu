@@ -65,6 +65,14 @@ class ExcelImporter
         'lat' => 'LAT', 'online' => 'Online', 'redeem poin' => 'Redeem Poin', 'spie reward' => 'SPIE Reward',
     ];
 
+    /** Variasi teks status pembayaran (termasuk istilah lama) -> 3 kategori resmi saat ini. */
+    private const ALIAS_STATUS = [
+        'belum' => 'Belum', 'belum dibayar' => 'Belum', 'belum bayar' => 'Belum', 'belum lunas' => 'Belum',
+        'proses' => 'Diproses', 'diproses' => 'Diproses', 'dalam proses' => 'Diproses',
+        'akrual' => 'Diproses', 'accrual' => 'Diproses',
+        'lunas' => 'Lunas', 'sudah lunas' => 'Lunas', 'sudah dibayar' => 'Lunas', 'sudah bayar' => 'Lunas', 'paid' => 'Lunas',
+    ];
+
     /** Kesalahan ketik No. Akun yang sudah diketahui. */
     private const KOREKSI_AKUN = ['6431009' => '64310009'];
 
@@ -235,9 +243,14 @@ class ExcelImporter
 
             $st = trim((string) $ambil('status'));
             if ($st !== '') {
-                foreach ($cfg->statusPembayaran as $opsi) {
-                    if (mb_strtolower($opsi) === mb_strtolower($st)) {
-                        $row['status_pembayaran'] = $opsi;
+                $ks = $this->kunci($st);
+                if (array_key_exists($ks, self::ALIAS_STATUS)) {
+                    $row['status_pembayaran'] = self::ALIAS_STATUS[$ks];
+                } else {
+                    foreach ($cfg->statusPembayaran as $opsi) {
+                        if (mb_strtolower($opsi) === mb_strtolower($st)) {
+                            $row['status_pembayaran'] = $opsi;
+                        }
                     }
                 }
                 if ($row['status_pembayaran'] === null) {

@@ -150,6 +150,19 @@ if (! function_exists('asset')) {
     }
 }
 
+if (! function_exists('status_kelas')) {
+    /** Kelas chip untuk status pembayaran (Belum/Diproses/Lunas). */
+    function status_kelas(?string $status): string
+    {
+        return match ($status) {
+            'Lunas'    => 'chip-teal',
+            'Diproses' => 'chip-gold',
+            'Belum'    => 'chip-brick',
+            default    => 'chip-slate',
+        };
+    }
+}
+
 if (! function_exists('selisih_kelas')) {
     /** Kelas warna teks untuk selisih (sisa anggaran): positif = hemat, negatif = melebihi. */
     function selisih_kelas(float $selisih): string
