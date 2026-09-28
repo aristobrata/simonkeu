@@ -22,6 +22,8 @@ class TransaksiModel extends Model
         'biaya_training', 'biaya_materi', 'biaya_konsumsi', 'biaya_perlengkapan', 'biaya_tiket',
         'biaya_hotel', 'biaya_transportasi', 'biaya_uang_saku', 'biaya_lainnya', 'total_biaya',
         'status_pembayaran', 'no_parking', 'tgl_pembayaran_terakhir', 'keterangan', 'created_by',
+        'bukti_pembayaran', 'bukti_pembayaran_oleh', 'bukti_pembayaran_at',
+        'lunas_menunggu', 'lunas_konfirmasi_oleh', 'lunas_konfirmasi_at', 'lunas_ditolak_alasan',
     ];
 
     protected $beforeInsert = ['hitungTotal'];
@@ -203,6 +205,60 @@ class TransaksiModel extends Model
     /**
      * Normalisasi isian form (teks, angka berformat Indonesia, tanggal) menjadi data siap simpan.
      *
+    /**
+     * Tentukan nilai status_pembayaran & kolom alur konfirmasi "Lunas" yang akan disimpan,
+     * berdasarkan status yang diminta pengguna dan perannya. Logika inti alur persetujuan:
+     * operator mengajukan (menunggu admin), admin langsung final (dianggap sudah disetujui sendiri).
+     *
+     * @return array{data:array<string,mixed>,butuh_bukti:bool,mengajukan:bool}
+     */
+    public function alurStatus(?string $statusLama, ?string $statusDiminta, bool $adminLangsung, int $userId): array
+    {
+        $sekarang = date('Y-m-d H:i:s');
+
+        // Target bukan "Lunas": tidak ada alur khusus. Batalkan pengajuan yang mungkin masih menggantung.
+        if ($statusDiminta !== 'Lunas') {
+            return [
+                'data'        => ['status_pembayaran' => $statusDiminta, 'lunas_menunggu' => 0],
+                'butuh_bukti' => false,
+                'mengajukan'  => false,
+            ];
+        }
+
+        // Sudah Lunas & sudah final sebelumnya: pertahankan, tidak perlu bukti baru / alur baru.
+        if ($statusLama === 'Lunas') {
+            return [
+                'data'        => ['status_pembayaran' => 'Lunas'],
+                'butuh_bukti' => false,
+                'mengajukan'  => false,
+            ];
+        }
+
+        // Transisi baru menuju Lunas — selalu wajib ada bukti (baru diunggah atau sudah tersimpan sebelumnya).
+        if ($adminLangsung) {
+            return [
+                'data' => [
+                    'status_pembayaran' => 'Lunas', 'lunas_menunggu' => 0,
+                    'lunas_konfirmasi_oleh' => $userId, 'lunas_konfirmasi_at' => $sekarang, 'lunas_ditolak_alasan' => null,
+                ],
+                'butuh_bukti' => true,
+                'mengajukan'  => false,
+            ];
+        }
+
+        // Operator: ajukan dulu. status_pembayaran resmi SENGAJA dikembalikan ke nilai lama
+        // (bukan dibiarkan kosong) supaya tidak tertimpa nilai "Lunas" dari input form saat digabung.
+        return [
+            'data'        => [
+                'status_pembayaran' => $statusLama, 'lunas_menunggu' => 1,
+                'lunas_konfirmasi_oleh' => null, 'lunas_konfirmasi_at' => null, 'lunas_ditolak_alasan' => null,
+            ],
+            'butuh_bukti' => true,
+            'mengajukan'  => true,
+        ];
+    }
+
+    /**
      * @param array<string,mixed> $p
      */
     public function siapkanInput(array $p): array

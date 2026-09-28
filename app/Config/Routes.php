@@ -41,6 +41,7 @@ $routes->group('', ['filter' => 'auth'], static function (RouteCollection $route
     });
 
     $routes->get('transaksi/(:num)', 'Transaksi::show/$1');
+    $routes->get('transaksi/(:num)/bukti', 'Transaksi::bukti/$1');
 
     $routes->get('laporan', 'Laporan::index');
     $routes->get('laporan/unduh/(:segment)', 'Laporan::download/$1');
@@ -55,5 +56,9 @@ $routes->group('', ['filter' => 'auth'], static function (RouteCollection $route
         $routes->post('pengguna/(:num)/ubah', 'Users::update/$1');
         $routes->post('pengguna/(:num)/hapus', 'Users::delete/$1');
         $routes->get('audit', 'Audit::index');
+
+        $routes->get('konfirmasi', 'Konfirmasi::index');
+        $routes->post('konfirmasi/(:num)/setujui', 'Konfirmasi::setujui/$1');
+        $routes->post('konfirmasi/(:num)/tolak', 'Konfirmasi::tolak/$1');
     });
 });

@@ -26,6 +26,7 @@ $nav = [
         ['Cost center', 'master/cost-center', 'bi-building', ['master/cost-center'], ['admin', 'operator']],
     ]],
     ['Administrasi' => [
+        ['Konfirmasi Lunas', 'konfirmasi', 'bi-patch-check', ['konfirmasi*'], ['admin']],
         ['Pengguna', 'pengguna', 'bi-people', ['pengguna*'], ['admin']],
         ['Log aktivitas', 'audit', 'bi-clock-history', ['audit*'], ['admin']],
     ]],
@@ -70,7 +71,7 @@ $aktif = static function (array $pola): bool {
                     <small><?= esc($judul) ?></small>
                     <?php foreach ($tampil as [$label, $url, $ikon, $pola]) : ?>
                         <a class="nav-link-s <?= $aktif($pola) ? 'active' : '' ?>" href="<?= site_url($url) ?>"<?= $aktif($pola) ? ' aria-current="page"' : '' ?>>
-                            <i class="bi <?= $ikon ?>"></i><span><?= esc($label) ?></span>
+                            <i class="bi <?= $ikon ?>"></i><span><?= esc($label) ?></span><?php if ($url === 'konfirmasi' && ($jm = jumlah_menunggu()) > 0) : ?><span class="nav-badge"><?= $jm ?></span><?php endif ?>
                         </a>
                     <?php endforeach ?>
                 </div>

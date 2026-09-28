@@ -31,4 +31,8 @@ class Simonkeu extends BaseConfig
     ];
 
     public int $perPage = 25;
+
+    /** Pengaturan unggah bukti pembayaran (wajib saat status diubah menjadi "Lunas"). */
+    public int $buktiMaksKb = 5120; // 5 MB
+    public array $buktiExt  = ['pdf', 'jpg', 'jpeg', 'png'];
 }

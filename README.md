@@ -16,6 +16,13 @@ framework **CodeIgniter 4**, dan database **MySQL/MariaDB**.
 - **Status pembayaran** transaksi (Belum / Diproses / Lunas), dengan diagram
   proporsi status di dashboard sehingga langsung terlihat berapa banyak
   transaksi yang masih perlu diselesaikan.
+- **Alur konfirmasi Lunas**: mengubah status menjadi *Lunas* wajib mengunggah
+  bukti pembayaran (PDF/JPG/PNG, maks 5 MB). Bila dilakukan **operator**,
+  status baru berubah setelah **admin menyetujui** di menu "Konfirmasi Lunas"
+  (admin bisa menolak dengan alasan). Bila dilakukan **admin**, status langsung
+  Lunas tanpa antre. File bukti disimpan di `writable/uploads/bukti/` (di luar
+  folder publik) dan hanya bisa dibuka lewat aplikasi oleh pengguna yang masuk.
+  Semua pengajuan/persetujuan/penolakan tercatat di Log aktivitas.
 - **CRUD transaksi** lengkap (tambah/lihat/ubah/hapus) dengan total biaya
   otomatis (mengikuti rumus `=SUM` pada template), validasi, dan pencarian/filter/urut/paginasi.
 - **Import dari Excel**: membaca ulang template asli (header dikenali dari nama
@@ -57,9 +64,11 @@ ini (atau cukup timpa file-file yang berubah), lalu jalankan sekali:
 php spark migrate
 ```
 
-Perintah ini akan menambahkan tabel `anggaran_tahunan` dan merapikan status
-pembayaran lama ke 3 kategori baru (Belum/Diproses/Lunas), tanpa mengubah
+Perintah ini akan menambahkan tabel `anggaran_tahunan`, merapikan status
+pembayaran lama ke 3 kategori baru (Belum/Diproses/Lunas), dan menambah
+kolom bukti pembayaran/konfirmasi pada tabel transaksi, tanpa mengubah
 atau menghapus data transaksi yang sudah ada. Tidak perlu `db:seed` ulang.
+Pastikan folder `writable/` dapat ditulis oleh web server (untuk file bukti).
 
 ### Konfigurasi `.env`
 

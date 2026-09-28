@@ -30,6 +30,20 @@ $beda     = abs((float) $row['realisasi_anggaran'] - $total) > 0.5;
     </div>
 </div>
 
+<?php if (! empty($row['lunas_menunggu'])) : ?>
+    <div class="alert alert-warning d-flex flex-wrap align-items-center gap-2">
+        <span><i class="bi bi-hourglass-split me-1"></i>Pengajuan status <b>Lunas</b> menunggu konfirmasi admin.</span>
+        <?php if (has_role('admin')) : ?>
+            <span class="ms-auto d-flex gap-2">
+                <form method="post" action="<?= site_url("konfirmasi/{$row['id']}/setujui") ?>" class="m-0"><?= csrf_field() ?><button class="btn btn-primary btn-sm" type="submit"><i class="bi bi-check2 me-1"></i>Setujui</button></form>
+                <a class="btn btn-ghost btn-sm text-danger" href="<?= site_url('konfirmasi') ?>"><i class="bi bi-x-lg me-1"></i>Tolak…</a>
+            </span>
+        <?php endif ?>
+    </div>
+<?php elseif (! empty($row['lunas_ditolak_alasan'])) : ?>
+    <div class="alert alert-danger"><i class="bi bi-x-octagon me-1"></i>Pengajuan Lunas terakhir ditolak admin: <?= esc($row['lunas_ditolak_alasan']) ?></div>
+<?php endif ?>
+
 <?php if ($beda) : ?>
     <div class="alert alert-warning"><i class="bi bi-exclamation-triangle me-1"></i>Realisasi anggaran (<?= rupiah($row['realisasi_anggaran']) ?>) berbeda dari total rincian biaya (<?= rupiah($total) ?>). Periksa apakah salah satunya perlu dikoreksi.</div>
 <?php endif ?>
@@ -46,6 +60,8 @@ $beda     = abs((float) $row['realisasi_anggaran'] - $total) > 0.5;
                     <dt>No. akun</dt><dd><?= esc($row['akun_kode'] . ' – ' . $row['akun_nama']) ?></dd>
                     <dt>Cost center</dt><dd><?= esc($row['cc_kode'] . ' – ' . $row['cc_nama']) ?></dd>
                     <dt>No. parking</dt><dd><?= esc($row['no_parking'] ?: '—') ?></dd>
+                    <dt>Bukti pembayaran</dt><dd><?php if (! empty($row['bukti_pembayaran'])) : ?><a target="_blank" rel="noopener" href="<?= site_url("transaksi/{$row['id']}/bukti") ?>"><i class="bi bi-paperclip"></i> Lihat bukti</a> <span class="small-2">diunggah <?= esc($row['bukti_pembayaran_at'] ?? '') ?></span><?php else : ?>—<?php endif ?></dd>
+                    <?php if (! empty($row['lunas_konfirmasi_at'])) : ?><dt>Dikonfirmasi lunas</dt><dd><?= esc($row['lunas_konfirmasi_at']) ?></dd><?php endif ?>
                     <dt>Tgl pembayaran terakhir</dt><dd><?= $row['tgl_pembayaran_terakhir'] ? tgl_id($row['tgl_pembayaran_terakhir'], false) : '—' ?></dd>
                     <dt>Keterangan</dt><dd><?= $row['keterangan'] ? nl2br(esc($row['keterangan'])) : '—' ?></dd>
                     <dt>Terakhir diperbarui</dt><dd><?= esc($row['updated_at'] ?? '—') ?></dd>

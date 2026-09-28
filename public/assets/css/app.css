@@ -245,3 +245,6 @@ a:hover { text-decoration: underline; }
 .dropzone i { font-size: 1.8rem; color: var(--teal); }
 .kolom-list { columns: 2; column-gap: 2rem; font-size: .85rem; padding-left: 1.1rem; margin: 0; }
 @media (max-width: 575.98px) { .kolom-list { columns: 1; } }
+
+/* ---------- Lencana menu ---------- */
+.nav-badge { margin-left: auto; background: var(--gold); color: #3A2A00; font-size: .72rem; font-weight: 800; border-radius: 999px; padding: .05rem .5rem; min-width: 1.4rem; text-align: center; }

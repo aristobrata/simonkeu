@@ -150,6 +150,19 @@ if (! function_exists('asset')) {
     }
 }
 
+if (! function_exists('jumlah_menunggu')) {
+    /** Jumlah pengajuan status Lunas yang menunggu konfirmasi admin (di-cache per permintaan). */
+    function jumlah_menunggu(): int
+    {
+        static $n = null;
+        if ($n === null) {
+            $n = (int) db_connect()->table('transaksi')->where('lunas_menunggu', 1)->where('deleted_at', null)->countAllResults();
+        }
+
+        return $n;
+    }
+}
+
 if (! function_exists('status_kelas')) {
     /** Kelas chip untuk status pembayaran (Belum/Diproses/Lunas). */
     function status_kelas(?string $status): string
