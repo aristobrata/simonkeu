@@ -93,9 +93,9 @@ class Transaksi extends BaseController
             if ($id) {
                 AuditLogModel::catat('tambah', 'transaksi', (int) $id, $d['aktivitas'] . ' — total ' . rupiah($d['total_biaya']));
                 if ($alur['mengajukan']) {
-                    AuditLogModel::catat('ajukan_lunas', 'transaksi', (int) $id, 'Mengajukan status Lunas, menunggu konfirmasi admin.');
+                    AuditLogModel::catat('ajukan_lunas', 'transaksi', (int) $id, 'Mengajukan status Selesai Proses, menunggu konfirmasi admin.');
 
-                    return redirect()->to('/transaksi/' . $id)->with('success', 'Transaksi ditambahkan. Pengajuan status "Lunas" terkirim dan menunggu konfirmasi admin.');
+                    return redirect()->to('/transaksi/' . $id)->with('success', 'Transaksi ditambahkan. Pengajuan status "Selesai Proses" terkirim dan menunggu konfirmasi admin.');
                 }
 
                 return redirect()->to('/transaksi/' . $id)->with('success', 'Transaksi berhasil ditambahkan.');
@@ -132,11 +132,11 @@ class Transaksi extends BaseController
             if ($this->m->update($id, $d)) {
                 AuditLogModel::catat('ubah', 'transaksi', $id, $lama['aktivitas'] . ' — ' . $this->m->ringkasPerubahan($lama, $d));
                 if ($alur['mengajukan']) {
-                    AuditLogModel::catat('ajukan_lunas', 'transaksi', $id, 'Mengajukan status Lunas, menunggu konfirmasi admin.');
+                    AuditLogModel::catat('ajukan_lunas', 'transaksi', $id, 'Mengajukan status Selesai Proses, menunggu konfirmasi admin.');
 
-                    return redirect()->to('/transaksi/' . $id)->with('success', 'Perubahan disimpan. Pengajuan status "Lunas" terkirim dan menunggu konfirmasi admin.');
+                    return redirect()->to('/transaksi/' . $id)->with('success', 'Perubahan disimpan. Pengajuan status "Selesai Proses" terkirim dan menunggu konfirmasi admin.');
                 }
-                if (($alur['data']['status_pembayaran'] ?? null) === 'Lunas' && $lama['status_pembayaran'] !== 'Lunas') {
+                if (($alur['data']['status_pembayaran'] ?? null) === 'Selesai Proses' && $lama['status_pembayaran'] !== 'Selesai Proses') {
                     AuditLogModel::catat('konfirmasi_lunas', 'transaksi', $id, 'Admin menandai lunas langsung (tanpa antre konfirmasi).');
                 }
 
@@ -231,7 +231,7 @@ class Transaksi extends BaseController
         if ($alur['butuh_bukti'] && empty($galat['bukti_pembayaran'])) {
             $sudahAda = $adaFileBaru || ! empty($lama['bukti_pembayaran']);
             if (! $sudahAda) {
-                $galat['bukti_pembayaran'] = 'Unggah bukti pembayaran (' . strtoupper(implode('/', config('Simonkeu')->buktiExt)) . ', maks ' . number_format(config('Simonkeu')->buktiMaksKb / 1024, 1) . ' MB) untuk mengubah status menjadi Lunas.';
+                $galat['bukti_pembayaran'] = 'Unggah bukti pembayaran (' . strtoupper(implode('/', config('Simonkeu')->buktiExt)) . ', maks ' . number_format(config('Simonkeu')->buktiMaksKb / 1024, 1) . ' MB) untuk mengubah status menjadi Selesai Proses.';
             }
         }
     }

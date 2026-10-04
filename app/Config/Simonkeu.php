@@ -15,7 +15,7 @@ class Simonkeu extends BaseConfig
     public string $orgName  = 'PT Semen Padang';
 
     /** Pilihan status pembayaran (kolom "Status pembayaran" pada template). */
-    public array $statusPembayaran = ['Belum', 'Diproses', 'Lunas'];
+    public array $statusPembayaran = ['Belum Proses', 'Diproses', 'Selesai Proses'];
 
     /** Rincian biaya sesuai kolom M–U template: kolom DB => label. */
     public array $komponen = [
@@ -32,7 +32,7 @@ class Simonkeu extends BaseConfig
 
     public int $perPage = 25;
 
-    /** Pengaturan unggah bukti pembayaran (wajib saat status diubah menjadi "Lunas"). */
+    /** Pengaturan unggah bukti pembayaran (wajib saat status diubah menjadi "Selesai Proses"). */
     public int $buktiMaksKb = 5120; // 5 MB
     public array $buktiExt  = ['pdf', 'jpg', 'jpeg', 'png'];
 }

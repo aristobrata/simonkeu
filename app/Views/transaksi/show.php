@@ -32,7 +32,7 @@ $beda     = abs((float) $row['realisasi_anggaran'] - $total) > 0.5;
 
 <?php if (! empty($row['lunas_menunggu'])) : ?>
     <div class="alert alert-warning d-flex flex-wrap align-items-center gap-2">
-        <span><i class="bi bi-hourglass-split me-1"></i>Pengajuan status <b>Lunas</b> menunggu konfirmasi admin.</span>
+        <span><i class="bi bi-hourglass-split me-1"></i>Pengajuan status <b>Selesai Proses</b> menunggu konfirmasi admin.</span>
         <?php if (has_role('admin')) : ?>
             <span class="ms-auto d-flex gap-2">
                 <form method="post" action="<?= site_url("konfirmasi/{$row['id']}/setujui") ?>" class="m-0"><?= csrf_field() ?><button class="btn btn-primary btn-sm" type="submit"><i class="bi bi-check2 me-1"></i>Setujui</button></form>
@@ -41,7 +41,7 @@ $beda     = abs((float) $row['realisasi_anggaran'] - $total) > 0.5;
         <?php endif ?>
     </div>
 <?php elseif (! empty($row['lunas_ditolak_alasan'])) : ?>
-    <div class="alert alert-danger"><i class="bi bi-x-octagon me-1"></i>Pengajuan Lunas terakhir ditolak admin: <?= esc($row['lunas_ditolak_alasan']) ?></div>
+    <div class="alert alert-danger"><i class="bi bi-x-octagon me-1"></i>Pengajuan Selesai Proses terakhir ditolak admin: <?= esc($row['lunas_ditolak_alasan']) ?></div>
 <?php endif ?>
 
 <?php if ($beda) : ?>

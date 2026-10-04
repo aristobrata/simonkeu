@@ -216,7 +216,7 @@
   function renderStatus(d) {
     var s = (d.status || []).filter(function (x) { return x.jumlah > 0; });
     var total = s.reduce(function (sum, x) { return sum + x.jumlah; }, 0);
-    var WARNA = { 'Belum': '#B5412B', 'Diproses': '#E8A317', 'Lunas': '#0B7A75', 'Belum diisi': '#AEB6C0' };
+    var WARNA = { 'Belum Proses': '#B5412B', 'Diproses': '#E8A317', 'Selesai Proses': '#0B7A75', 'Belum diisi': '#AEB6C0' };
     var col = function (st) { return WARNA[st] || '#56616E'; };
     make('chStatus', {
       type: 'bar',

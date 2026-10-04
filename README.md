@@ -13,14 +13,14 @@ framework **CodeIgniter 4**, dan database **MySQL/MariaDB**.
   dan/atau terpisah per jenis aktivitas). Pagu berkurang otomatis mengikuti
   realisasi transaksi — tidak perlu dihitung manual, dan tampil sebagai panel
   progres di dashboard serta halaman "Anggaran tahunan" tersendiri.
-- **Status pembayaran** transaksi (Belum / Diproses / Lunas), dengan diagram
+- **Status pembayaran** transaksi (Belum Proses / Diproses / Selesai Proses), dengan diagram
   proporsi status di dashboard sehingga langsung terlihat berapa banyak
   transaksi yang masih perlu diselesaikan.
-- **Alur konfirmasi Lunas**: mengubah status menjadi *Lunas* wajib mengunggah
+- **Alur konfirmasi Selesai Proses**: mengubah status menjadi *Selesai Proses* wajib mengunggah
   bukti pembayaran (PDF/JPG/PNG, maks 5 MB). Bila dilakukan **operator**,
-  status baru berubah setelah **admin menyetujui** di menu "Konfirmasi Lunas"
+  status baru berubah setelah **admin menyetujui** di menu "Konfirmasi Selesai Proses"
   (admin bisa menolak dengan alasan). Bila dilakukan **admin**, status langsung
-  Lunas tanpa antre. File bukti disimpan di `writable/uploads/bukti/` (di luar
+  Selesai Proses tanpa antre. File bukti disimpan di `writable/uploads/bukti/` (di luar
   folder publik) dan hanya bisa dibuka lewat aplikasi oleh pengguna yang masuk.
   Semua pengajuan/persetujuan/penolakan tercatat di Log aktivitas.
 - **CRUD transaksi** lengkap (tambah/lihat/ubah/hapus) dengan total biaya
@@ -65,7 +65,7 @@ php spark migrate
 ```
 
 Perintah ini akan menambahkan tabel `anggaran_tahunan`, merapikan status
-pembayaran lama ke 3 kategori baru (Belum/Diproses/Lunas), dan menambah
+pembayaran lama ke 3 kategori baru (Belum Proses/Diproses/Selesai Proses), dan menambah
 kolom bukti pembayaran/konfirmasi pada tabel transaksi, tanpa mengubah
 atau menghapus data transaksi yang sudah ada. Tidak perlu `db:seed` ulang.
 Pastikan folder `writable/` dapat ditulis oleh web server (untuk file bukti).

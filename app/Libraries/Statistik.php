@@ -228,7 +228,7 @@ class Statistik
         return array_map(static fn ($r) => ['nama' => $r['nama'], 'jumlah' => (int) $r['jumlah'], 'realisasi' => (float) $r['realisasi']], $rows);
     }
 
-    /** Jumlah & nilai realisasi per status pembayaran (Belum/Diproses/Lunas/Belum diisi), urutan tetap agar diagram konsisten. */
+    /** Jumlah & nilai realisasi per status pembayaran (Belum Proses/Diproses/Selesai Proses/Belum diisi), urutan tetap agar diagram konsisten. */
     public function perStatus(array $f): array
     {
         $rows = $this->dasar($f)->select("COALESCE(t.status_pembayaran, 'Belum diisi') AS status, " . self::SUMS, false)

@@ -1,7 +1,7 @@
 <?= $this->extend('layouts/main') ?>
-<?= $this->section('title') ?>Konfirmasi Lunas<?= $this->endSection() ?>
-<?= $this->section('heading') ?>Konfirmasi Lunas<?= $this->endSection() ?>
-<?= $this->section('subheading') ?>Pengajuan status "Lunas" dari operator yang menunggu keputusan admin<?= $this->endSection() ?>
+<?= $this->section('title') ?>Konfirmasi Selesai Proses<?= $this->endSection() ?>
+<?= $this->section('heading') ?>Konfirmasi Selesai Proses<?= $this->endSection() ?>
+<?= $this->section('subheading') ?>Pengajuan status "Selesai Proses" dari operator yang menunggu keputusan admin<?= $this->endSection() ?>
 
 <?= $this->section('content') ?>
 <?php if (! $rows) : ?>
@@ -38,7 +38,7 @@
     <div class="modal-dialog modal-dialog-centered">
         <form class="modal-content" method="post" id="tolakForm" action="">
             <?= csrf_field() ?>
-            <div class="modal-header"><h2 class="modal-title h6">Tolak pengajuan Lunas</h2><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button></div>
+            <div class="modal-header"><h2 class="modal-title h6">Tolak pengajuan Selesai Proses</h2><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button></div>
             <div class="modal-body">
                 <p class="small-2 mb-3" id="tolakNama"></p>
                 <label class="form-label" for="alasan">Alasan penolakan <span class="text-danger">*</span></label>

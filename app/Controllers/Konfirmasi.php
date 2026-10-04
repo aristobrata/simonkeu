@@ -7,7 +7,7 @@ use App\Models\TransaksiModel;
 use CodeIgniter\Exceptions\PageNotFoundException;
 
 /**
- * Antrean konfirmasi status "Lunas" yang diajukan operator (menunggu keputusan admin).
+ * Antrean konfirmasi status "Selesai Proses" yang diajukan operator (menunggu keputusan admin).
  * Hanya bisa diakses administrator (dibatasi lewat filter role di Routes.php).
  */
 class Konfirmasi extends BaseController
@@ -36,15 +36,15 @@ class Konfirmasi extends BaseController
         }
 
         $m->update($id, [
-            'status_pembayaran'     => 'Lunas',
+            'status_pembayaran'     => 'Selesai Proses',
             'lunas_menunggu'        => 0,
             'lunas_konfirmasi_oleh' => current_user()['id'] ?? null,
             'lunas_konfirmasi_at'   => date('Y-m-d H:i:s'),
             'lunas_ditolak_alasan'  => null,
         ]);
-        AuditLogModel::catat('konfirmasi_lunas', 'transaksi', $id, $row['aktivitas'] . ' — disetujui, status menjadi Lunas.');
+        AuditLogModel::catat('konfirmasi_lunas', 'transaksi', $id, $row['aktivitas'] . ' — disetujui, status menjadi Selesai Proses.');
 
-        return redirect()->to('/konfirmasi')->with('success', 'Status "Lunas" disetujui untuk "' . mb_strimwidth($row['aktivitas'], 0, 60, '…') . '".');
+        return redirect()->to('/konfirmasi')->with('success', 'Status "Selesai Proses" disetujui untuk "' . mb_strimwidth($row['aktivitas'], 0, 60, '…') . '".');
     }
 
     public function tolak(int $id)
@@ -65,8 +65,8 @@ class Konfirmasi extends BaseController
             'lunas_menunggu'       => 0,
             'lunas_ditolak_alasan' => $alasan,
         ]);
-        AuditLogModel::catat('tolak_lunas', 'transaksi', $id, $row['aktivitas'] . ' — pengajuan Lunas ditolak: ' . $alasan);
+        AuditLogModel::catat('tolak_lunas', 'transaksi', $id, $row['aktivitas'] . ' — pengajuan Selesai Proses ditolak: ' . $alasan);
 
-        return redirect()->to('/konfirmasi')->with('success', 'Pengajuan "Lunas" untuk "' . mb_strimwidth($row['aktivitas'], 0, 60, '…') . '" ditolak.');
+        return redirect()->to('/konfirmasi')->with('success', 'Pengajuan "Selesai Proses" untuk "' . mb_strimwidth($row['aktivitas'], 0, 60, '…') . '" ditolak.');
     }
 }

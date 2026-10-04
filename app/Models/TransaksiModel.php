@@ -203,10 +203,7 @@ class TransaksiModel extends Model
     }
 
     /**
-     * Normalisasi isian form (teks, angka berformat Indonesia, tanggal) menjadi data siap simpan.
-     *
-    /**
-     * Tentukan nilai status_pembayaran & kolom alur konfirmasi "Lunas" yang akan disimpan,
+     * Tentukan nilai status_pembayaran & kolom alur konfirmasi "Selesai Proses" yang akan disimpan,
      * berdasarkan status yang diminta pengguna dan perannya. Logika inti alur persetujuan:
      * operator mengajukan (menunggu admin), admin langsung final (dianggap sudah disetujui sendiri).
      *
@@ -216,8 +213,8 @@ class TransaksiModel extends Model
     {
         $sekarang = date('Y-m-d H:i:s');
 
-        // Target bukan "Lunas": tidak ada alur khusus. Batalkan pengajuan yang mungkin masih menggantung.
-        if ($statusDiminta !== 'Lunas') {
+        // Target bukan "Selesai Proses": tidak ada alur khusus. Batalkan pengajuan yang mungkin masih menggantung.
+        if ($statusDiminta !== 'Selesai Proses') {
             return [
                 'data'        => ['status_pembayaran' => $statusDiminta, 'lunas_menunggu' => 0],
                 'butuh_bukti' => false,
@@ -225,20 +222,20 @@ class TransaksiModel extends Model
             ];
         }
 
-        // Sudah Lunas & sudah final sebelumnya: pertahankan, tidak perlu bukti baru / alur baru.
-        if ($statusLama === 'Lunas') {
+        // Sudah Selesai Proses & sudah final sebelumnya: pertahankan, tidak perlu bukti baru / alur baru.
+        if ($statusLama === 'Selesai Proses') {
             return [
-                'data'        => ['status_pembayaran' => 'Lunas'],
+                'data'        => ['status_pembayaran' => 'Selesai Proses'],
                 'butuh_bukti' => false,
                 'mengajukan'  => false,
             ];
         }
 
-        // Transisi baru menuju Lunas — selalu wajib ada bukti (baru diunggah atau sudah tersimpan sebelumnya).
+        // Transisi baru menuju Selesai Proses — selalu wajib ada bukti (baru diunggah atau sudah tersimpan sebelumnya).
         if ($adminLangsung) {
             return [
                 'data' => [
-                    'status_pembayaran' => 'Lunas', 'lunas_menunggu' => 0,
+                    'status_pembayaran' => 'Selesai Proses', 'lunas_menunggu' => 0,
                     'lunas_konfirmasi_oleh' => $userId, 'lunas_konfirmasi_at' => $sekarang, 'lunas_ditolak_alasan' => null,
                 ],
                 'butuh_bukti' => true,
@@ -247,7 +244,7 @@ class TransaksiModel extends Model
         }
 
         // Operator: ajukan dulu. status_pembayaran resmi SENGAJA dikembalikan ke nilai lama
-        // (bukan dibiarkan kosong) supaya tidak tertimpa nilai "Lunas" dari input form saat digabung.
+        // (bukan dibiarkan kosong) supaya tidak tertimpa nilai "Selesai Proses" dari input form saat digabung.
         return [
             'data'        => [
                 'status_pembayaran' => $statusLama, 'lunas_menunggu' => 1,

@@ -117,17 +117,17 @@ $komponen = config('Simonkeu')->komponen;
                 <label class="form-label" for="bukti_pembayaran">Bukti pembayaran <span class="text-danger" id="wajibBukti">*</span></label>
                 <input class="form-control" type="file" id="bukti_pembayaran" name="bukti_pembayaran" accept=".pdf,.jpg,.jpeg,.png">
                 <div class="form-text">
-                    Wajib saat status diubah menjadi <b>Lunas</b> (PDF/JPG/PNG, maks <?= number_format(config('Simonkeu')->buktiMaksKb / 1024, 1) ?> MB).
-                    <?php if (! has_role('admin')) : ?>Status baru menjadi Lunas setelah <b>dikonfirmasi admin</b>; sampai saat itu status lama tetap berlaku.<?php else : ?>Sebagai admin, status langsung menjadi Lunas tanpa antre konfirmasi.<?php endif ?>
+                    Wajib saat status diubah menjadi <b>Selesai Proses</b> (PDF/JPG/PNG, maks <?= number_format(config('Simonkeu')->buktiMaksKb / 1024, 1) ?> MB).
+                    <?php if (! has_role('admin')) : ?>Status baru menjadi Selesai Proses setelah <b>dikonfirmasi admin</b>; sampai saat itu status lama tetap berlaku.<?php else : ?>Sebagai admin, status langsung menjadi Selesai Proses tanpa antre konfirmasi.<?php endif ?>
                 </div>
                 <?php if (! empty($row['bukti_pembayaran'])) : ?>
                     <div class="small-2 mt-1"><i class="bi bi-paperclip"></i> Bukti tersimpan: <a target="_blank" rel="noopener" href="<?= site_url('transaksi/' . $row['id'] . '/bukti') ?>">lihat file</a> — unggah file baru hanya bila ingin menggantinya.</div>
                 <?php endif ?>
             </div>
             <?php if (! empty($row['lunas_menunggu'])) : ?>
-                <div class="col-12"><div class="alert alert-warning mb-0 py-2"><i class="bi bi-hourglass-split me-1"></i>Pengajuan status <b>Lunas</b> untuk transaksi ini sedang menunggu konfirmasi admin.</div></div>
+                <div class="col-12"><div class="alert alert-warning mb-0 py-2"><i class="bi bi-hourglass-split me-1"></i>Pengajuan status <b>Selesai Proses</b> untuk transaksi ini sedang menunggu konfirmasi admin.</div></div>
             <?php elseif (! empty($row['lunas_ditolak_alasan'])) : ?>
-                <div class="col-12"><div class="alert alert-danger mb-0 py-2"><i class="bi bi-x-octagon me-1"></i>Pengajuan Lunas sebelumnya ditolak admin: <?= esc($row['lunas_ditolak_alasan']) ?></div></div>
+                <div class="col-12"><div class="alert alert-danger mb-0 py-2"><i class="bi bi-x-octagon me-1"></i>Pengajuan Selesai Proses sebelumnya ditolak admin: <?= esc($row['lunas_ditolak_alasan']) ?></div></div>
             <?php endif ?>
             <div class="col-12"><label class="form-label" for="keterangan">Keterangan</label><textarea class="form-control" id="keterangan" name="keterangan" rows="2" maxlength="2000"><?= esc($nilai('keterangan')) ?></textarea></div>
         </div>
@@ -145,8 +145,8 @@ $komponen = config('Simonkeu')->komponen;
 <script>
 (function () {
   var st = document.getElementById('status_pembayaran'), blok = document.getElementById('blokBukti');
-  var lamaLunas = <?= json_encode(($row['status_pembayaran'] ?? null) === 'Lunas') ?>;
-  function t() { blok.hidden = st.value !== 'Lunas'; document.getElementById('wajibBukti').hidden = lamaLunas; }
+  var lamaLunas = <?= json_encode(($row['status_pembayaran'] ?? null) === 'Selesai Proses') ?>;
+  function t() { blok.hidden = st.value !== 'Selesai Proses'; document.getElementById('wajibBukti').hidden = lamaLunas; }
   st.addEventListener('change', t); t();
 })();
 </script>

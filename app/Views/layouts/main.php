@@ -26,7 +26,7 @@ $nav = [
         ['Cost center', 'master/cost-center', 'bi-building', ['master/cost-center'], ['admin', 'operator']],
     ]],
     ['Administrasi' => [
-        ['Konfirmasi Lunas', 'konfirmasi', 'bi-patch-check', ['konfirmasi*'], ['admin']],
+        ['Konfirmasi Selesai Proses', 'konfirmasi', 'bi-patch-check', ['konfirmasi*'], ['admin']],
         ['Pengguna', 'pengguna', 'bi-people', ['pengguna*'], ['admin']],
         ['Log aktivitas', 'audit', 'bi-clock-history', ['audit*'], ['admin']],
     ]],

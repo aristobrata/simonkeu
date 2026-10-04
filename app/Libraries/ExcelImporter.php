@@ -67,10 +67,12 @@ class ExcelImporter
 
     /** Variasi teks status pembayaran (termasuk istilah lama) -> 3 kategori resmi saat ini. */
     private const ALIAS_STATUS = [
-        'belum' => 'Belum', 'belum dibayar' => 'Belum', 'belum bayar' => 'Belum', 'belum lunas' => 'Belum',
+        'belum' => 'Belum Proses', 'belum proses' => 'Belum Proses', 'belum dibayar' => 'Belum Proses',
+        'belum bayar' => 'Belum Proses', 'belum lunas' => 'Belum Proses',
         'proses' => 'Diproses', 'diproses' => 'Diproses', 'dalam proses' => 'Diproses',
         'akrual' => 'Diproses', 'accrual' => 'Diproses',
-        'lunas' => 'Lunas', 'sudah lunas' => 'Lunas', 'sudah dibayar' => 'Lunas', 'sudah bayar' => 'Lunas', 'paid' => 'Lunas',
+        'lunas' => 'Selesai Proses', 'selesai' => 'Selesai Proses', 'selesai proses' => 'Selesai Proses',
+        'sudah lunas' => 'Selesai Proses', 'sudah dibayar' => 'Selesai Proses', 'sudah bayar' => 'Selesai Proses', 'paid' => 'Selesai Proses',
     ];
 
     /** Kesalahan ketik No. Akun yang sudah diketahui. */

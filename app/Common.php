@@ -151,7 +151,7 @@ if (! function_exists('asset')) {
 }
 
 if (! function_exists('jumlah_menunggu')) {
-    /** Jumlah pengajuan status Lunas yang menunggu konfirmasi admin (di-cache per permintaan). */
+    /** Jumlah pengajuan status Selesai Proses yang menunggu konfirmasi admin (di-cache per permintaan). */
     function jumlah_menunggu(): int
     {
         static $n = null;
@@ -164,14 +164,14 @@ if (! function_exists('jumlah_menunggu')) {
 }
 
 if (! function_exists('status_kelas')) {
-    /** Kelas chip untuk status pembayaran (Belum/Diproses/Lunas). */
+    /** Kelas chip untuk status pembayaran (Belum Proses/Diproses/Selesai Proses). */
     function status_kelas(?string $status): string
     {
         return match ($status) {
-            'Lunas'    => 'chip-teal',
-            'Diproses' => 'chip-gold',
-            'Belum'    => 'chip-brick',
-            default    => 'chip-slate',
+            'Selesai Proses' => 'chip-teal',
+            'Diproses'       => 'chip-gold',
+            'Belum Proses'   => 'chip-brick',
+            default          => 'chip-slate',
         };
     }
 }
